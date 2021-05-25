@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Accessible Modal</title>
+</head>
+<header class="page-header">
+    <h1>Accessible Modal (popup)</h1>
+</header>
+<main>
+    <button type="button" class="modal-trigger">open modal</button>
+</main>
+<div class="modal-background" hidden>
+    <section class="modal-container" role="modal" aria-labelledby="modal-title">
+        <header class="modal-header">
+            <h2 id="modal-title">Modal Title</h2>
+            <button type="button" class="close-modal" tabindex="-1">close</button>
+        </header>
+        <div class="modal-interactive-container">
+            <a href="">example link</a>
+            <label for="example-input">example input label</label>
+            <input type="text" value="example input" id="example-input" />
+        </div>
+
+    </section>
+</div>
+
+
+<body>
+    <script src="./main.js"></script>
+
+</body>
+
+</html>
