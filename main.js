@@ -3,7 +3,8 @@ const modalHeader = document.querySelector('header.modal-header');
 const modalTrigger = document.querySelector('.modal-trigger');
 const modalCloseButton = modalHeader.querySelector('.close-modal');
 const modalBackground = document.querySelector('.modal-background');
-const focusableElements =
+const modalContent = modalBackground.querySelector('.modal-container');
+const allFocusableElements =
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 let isModalOpen = false;
@@ -12,11 +13,9 @@ function closeModal(modal) {
     modal.classList.remove('show');
     modal.hidden = !modal.hidden;
     modalTrigger.focus();
-
 }
 
 function openModal(modal) {
-
     modal.classList.add('show');
     modal.hidden = !modal.hidden;
     isModalOpen = true;
@@ -25,12 +24,10 @@ function openModal(modal) {
     focusableItems[1].focus();
 }
 
-function gatherFocusable(container) {
-    // cache some elements
-    const firstFocusableElement = container.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
-    // array of all focusable
-    const focusableContent = container.querySelectorAll(focusableElements);
-    const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
+function getFocusableElements(container) {
+    const focusableContent = container.querySelectorAll(allFocusableElements);
+    const firstFocusableElement = focusableContent[0]; 
+    const lastFocusableElement = focusableContent[focusableContent.length - 1]; 
     return [firstFocusableElement, lastFocusableElement];
 }
 
@@ -40,7 +37,7 @@ modalHeader.addEventListener('click', e => {
             closeModal(modalBackground);
         }
     }
-})
+});
 
 main.addEventListener('click', e => {
     if (e.target.matches('.modal-trigger')) {
@@ -50,7 +47,7 @@ main.addEventListener('click', e => {
 });
 document.addEventListener('keydown', function(e) {
     if (isModalOpen) {
-        const [firstFocusableElement, lastFocusableElement] = gatherFocusable(modalBackground);
+        const [firstFocusableElement, lastFocusableElement] = getFocusableElements(modalBackground);
         let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
         if (isTabPressed) {
             if (e.shiftKey) { // if shift key pressed for shift + tab combination
@@ -67,6 +64,15 @@ document.addEventListener('keydown', function(e) {
         }
         if (e.code === 'Escape') {
             return closeModal(modalBackground);
+        }
+    }
+});
+
+// click modal background to close modal
+modalBackground.addEventListener('click', e =>{
+    if(!(modalContent.contains(e.target))){
+        if(isModalOpen){
+            closeModal(modalBackground);
         }
     }
 });
