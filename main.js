@@ -54,13 +54,13 @@ document.addEventListener('keydown', function(e) {
         let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
         if (isTabPressed) {
             if (e.shiftKey) { // if shift key pressed for shift + tab combination
-                if (document.activeElement === firstFocusableElement) {
-                    lastFocusableElement.focus(); // add focus for the last focusable element
+                if (document.activeElement === firstFocusableElement) { // if focus is on the first element, we need it to loop, 
+                    lastFocusableElement.focus(); // so we add focus for the last focusable element
                     e.preventDefault();
                 }
             } else { // if only tab key is pressed
-                if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
-                    firstFocusableElement.focus(); // add focus for the first focusable element
+                if (document.activeElement === lastFocusableElement) { // if focus is on the last element, we need it to loop,
+                    firstFocusableElement.focus(); // so we add focus to the first focusable element
                     e.preventDefault();
                 }
             }
