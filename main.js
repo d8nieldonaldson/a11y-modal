@@ -5,7 +5,7 @@ const modalCloseButton = modalHeader.querySelector('.close-modal');
 const modalBackground = document.querySelector('.modal-background');
 const modalContent = modalBackground.querySelector('.modal-container');
 const allFocusableElements =
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]), input:not([type=hidden])';
 
 let isModalOpen = false;
 
@@ -13,15 +13,18 @@ function closeModal(modal) {
     modal.classList.remove('show');
     modal.hidden = !modal.hidden;
     modalTrigger.focus();
+    isModalOpen = false;
+    return isModalOpen;
 }
 
 function openModal(modal) {
     modal.classList.add('show');
     modal.hidden = !modal.hidden;
-    isModalOpen = true;
     const focusableItems = modal.querySelectorAll(allFocusableElements);
     // skip close button, move to next focusable
     focusableItems[1].focus();
+    isModalOpen = true;
+    return isModalOpen;
 }
 
 function getFocusableElements(container) {
@@ -30,7 +33,7 @@ function getFocusableElements(container) {
     const lastFocusableElement = focusableContent[focusableContent.length - 1];
     return [firstFocusableElement, lastFocusableElement];
 }
-
+// click close button to close modal
 modalHeader.addEventListener('click', e => {
     if (e.target.matches('.close-modal')) {
         if (isModalOpen) {
@@ -38,7 +41,7 @@ modalHeader.addEventListener('click', e => {
         }
     }
 });
-
+// click open button to open modal
 main.addEventListener('click', e => {
     if (e.target.matches('.modal-trigger')) {
         openModal(modalBackground);
@@ -52,16 +55,17 @@ document.addEventListener('keydown', function(e) {
         if (isTabPressed) {
             if (e.shiftKey) { // if shift key pressed for shift + tab combination
                 if (document.activeElement === firstFocusableElement) { // if focus is on the first element, we need it to loop, 
-                    lastFocusableElement.focus(); // so we add focus for the last focusable element
+                    lastFocusableElement.focus(); // so we move focus for the last focusable element
                     e.preventDefault();
                 }
             } else { // if only tab key is pressed
                 if (document.activeElement === lastFocusableElement) { // if focus is on the last element, we need it to loop,
-                    firstFocusableElement.focus(); // so we add focus to the first focusable element
+                    firstFocusableElement.focus(); // so we move focus to the first focusable element
                     e.preventDefault();
                 }
             }
         }
+        // hit Escape to close modal
         if (e.code === 'Escape') {
             return closeModal(modalBackground);
         }
