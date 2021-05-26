@@ -19,15 +19,15 @@ function openModal(modal) {
     modal.classList.add('show');
     modal.hidden = !modal.hidden;
     isModalOpen = true;
-    const focusableItems = modal.querySelectorAll(focusableElements);
+    const focusableItems = modal.querySelectorAll(allFocusableElements);
     // skip close button, move to next focusable
     focusableItems[1].focus();
 }
 
 function getFocusableElements(container) {
     const focusableContent = container.querySelectorAll(allFocusableElements);
-    const firstFocusableElement = focusableContent[0]; 
-    const lastFocusableElement = focusableContent[focusableContent.length - 1]; 
+    const firstFocusableElement = focusableContent[0];
+    const lastFocusableElement = focusableContent[focusableContent.length - 1];
     return [firstFocusableElement, lastFocusableElement];
 }
 
@@ -69,9 +69,9 @@ document.addEventListener('keydown', function(e) {
 });
 
 // click modal background to close modal
-modalBackground.addEventListener('click', e =>{
-    if(!(modalContent.contains(e.target))){
-        if(isModalOpen){
+modalBackground.addEventListener('click', e => {
+    if (!(modalContent && modalContent.contains(e.target))) {
+        if (isModalOpen) {
             closeModal(modalBackground);
         }
     }
